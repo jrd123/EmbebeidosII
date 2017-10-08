@@ -22,20 +22,21 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        final EditText etUserName = (EditText) findViewById(R.id.etUserName);
+        final EditText etAge = (EditText) findViewById(R.id.etAge);
         final EditText etName = (EditText) findViewById(R.id.etName);
+        final EditText etUsername = (EditText) findViewById(R.id.etUserName);
         final EditText etPassword = (EditText) findViewById(R.id.etPassword);
-        final EditText etPasswordConfirm = (EditText) findViewById(R.id.etPasswordConfirm);
+        final Button bRegister = (Button) findViewById(R.id.btnRegister);
 
-        final Button btnRegister = (Button) findViewById(R.id.btnRegister);
-
-        btnRegister.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        bRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 final String name = etName.getText().toString();
-                final String username = etUserName.getText().toString();
+                final String username = etUsername.getText().toString();
+                final int age = Integer.parseInt(etAge.getText().toString());
                 final String password = etPassword.getText().toString();
 
-                Response.Listener<String> responseListener = new Response.Listener<String>(){
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
@@ -54,11 +55,10 @@ public class RegisterActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
-
                 };
-                RegisterRequest registerRequest = new RegisterRequest(name, username, password, responseListener);
+
+                RegisterRequest registerRequest = new RegisterRequest(name, username, age, password, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                 queue.add(registerRequest);
             }

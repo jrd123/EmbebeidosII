@@ -20,19 +20,20 @@
             android:layout_height="wrap_content"
             android:hint="@string/user_name"
             android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/etAge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Edad"
+        android:inputType="number" />
+
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
-        android:inputType="textPassword" />
-
-    <EditText
-        android:id="@+id/etPasswordConfirm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/passwordConfirm"
         android:inputType="textPassword" />
 
     <RelativeLayout
