@@ -30,7 +30,6 @@ public class RegisterActivity extends AppCompatActivity {
         final Button btnRegister = (Button) findViewById(R.id.btnRegister);
 
         btnRegister.setOnClickListener(new View.OnClickListener(){
-
             public void onClick(View v){
                 final String name = etName.getText().toString();
                 final String username = etUserName.getText().toString();
