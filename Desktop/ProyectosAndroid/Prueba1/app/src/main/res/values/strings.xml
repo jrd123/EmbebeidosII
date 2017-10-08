@@ -9,4 +9,5 @@
     <string name="UserRegister">Registrar nuevo usuario</string>
     <string name="userArea">Área de usuario</string>
     <string name="passwordConfirm">Confirmar contraseña</string>
+
 </resources>
