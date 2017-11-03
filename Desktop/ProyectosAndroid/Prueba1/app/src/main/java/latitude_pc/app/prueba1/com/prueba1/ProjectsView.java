@@ -167,4 +167,6 @@ public class ProjectsView extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+
+
 }

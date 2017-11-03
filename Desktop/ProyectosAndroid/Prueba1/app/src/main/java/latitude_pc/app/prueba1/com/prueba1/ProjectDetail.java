@@ -2,6 +2,7 @@ package latitude_pc.app.prueba1.com.prueba1;
 
 import android.app.Service;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -13,12 +14,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import latitude_pc.app.prueba1.com.prueba1.Adapters.ImagesViewPagerAdapter;
+import latitude_pc.app.prueba1.com.prueba1.Models.ImagesModel;
 import latitude_pc.app.prueba1.com.prueba1.Models.ServicesModel;
 import latitude_pc.app.prueba1.com.prueba1.Models.UserModel;
 
 public class ProjectDetail extends AppCompatActivity {
     SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy");
-
+    ArrayList<ImagesModel> images = new ArrayList<ImagesModel>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +33,8 @@ public class ProjectDetail extends AppCompatActivity {
         TextView tvDate = (TextView)findViewById(R.id.ProjectDate);
         TextView tvDesc = (TextView)findViewById(R.id.Desc);
         TextView tvAutor = (TextView)findViewById(R.id.txtAutor);
+        ViewPager vpImages = (ViewPager)findViewById(R.id.vpImages);
+
         ArrayList<ServicesModel> services = new ArrayList<ServicesModel>();
         CollapsingToolbarLayout toolbar = (CollapsingToolbarLayout) findViewById(R.id.Collapsable);
         services = getServices();
@@ -37,6 +42,11 @@ public class ProjectDetail extends AppCompatActivity {
         tvDate.setText(services.get(position).getLastDateString());
         tvDesc.setText(services.get(position).getDescription());
         tvAutor.setText(services.get(position).getUsername());
+
+        images = getImages();
+        ImagesViewPagerAdapter adapter = new ImagesViewPagerAdapter(images,this);
+        vpImages.setAdapter(adapter);
+
     }
 
     public ArrayList<ServicesModel> getServices(){
@@ -60,5 +70,13 @@ public class ProjectDetail extends AppCompatActivity {
             Toast.makeText(this,e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         return services;
+    }
+
+    public ArrayList<ImagesModel> getImages(){
+        images.add(new ImagesModel(R.drawable.logo,"27/10/2017"));
+        images.add(new ImagesModel(R.drawable.icon_plus_big,"28/10/2017"));
+        images.add(new ImagesModel(R.drawable.turn_off,"29/10/2017"));
+
+        return images;
     }
 }
