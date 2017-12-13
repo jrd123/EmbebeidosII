@@ -8,61 +8,61 @@ import java.util.Date;
  */
 
 public class ServicesModel {
-    private long IdService;
-    private String ServiceName;
-    private String Username;
-    private String Description;
-    private Date LastDate;
+    private int service_id;
+    private String service;
+    private String autor;
+    private String Descripcion;
+    private Date fecha;
     SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy");
 
-    public ServicesModel(long IdService, String ServiceName, String Username, String Description, Date LastDate) {
-        this.IdService = IdService;
-        this.ServiceName = ServiceName;
-        this.Username = Username;
-        this.Description = Description;
-        this.LastDate = LastDate;
+    public ServicesModel(int service_id, String service, String autor, String Descripcion, Date fecha) {
+        this.service_id = service_id;
+        this.service = service;
+        this.autor = autor;
+        this.Descripcion = Descripcion;
+        this.fecha = fecha;
     }
 
     public long getIdService() {
-        return IdService;
+        return service_id;
     }
 
-    public void setIdService(long IdService) {
-        this.IdService = IdService;
+    public void setIdService(int service_id) {
+        this.service_id = service_id;
     }
 
     public String getServiceName() {
-        return ServiceName;
+        return service;
     }
 
-    public void setServiceName(String ServiceName) {
-        this.ServiceName = ServiceName;
+    public void setServiceName(String service) {
+        this.service = service;
     }
 
     public String getDescription() {
-        return Description;
+        return Descripcion;
     }
 
-    public void setDescription(String ServiceName) {
-        this.Description = Description;
+    public void setDescription(String Descripcion) {
+        this.Descripcion = Descripcion;
     }
 
     public String getUsername() {
-        return Username;
+        return autor;
     }
 
-    public void setUsername(String Username) {
-        this.Username = Username;
+    public void setUsername(String autor) {
+        this.autor = autor;
     }
 
-    public Date getLastDate() {
-        return LastDate;
+    public Date getDate() {
+        return fecha;
     }
-    public String getLastDateString() {
-        return format.format(LastDate);
+    public String getDateString() {
+        return format.format(fecha);
     }
-    public void setLastDate(Date LastDate) {
-        this.LastDate = LastDate;
+    public void setDate(Date fecha) {
+        this.fecha = fecha;
     }
 
 }

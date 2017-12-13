@@ -39,7 +39,7 @@ public class ServiceCardViewAdapter extends RecyclerView.Adapter<ServiceCardView
     @Override
     public void onBindViewHolder(ServiceCardViewAdapter.ServiceViewHolder holder, int position) {
         ServicesModel service = services.get(position);
-        holder.LastDate.setText(service.getLastDateString());
+        holder.LastDate.setText(service.getDateString());
         holder.ServiceName.setText(service.getServiceName());
         holder.Username.setText(service.getUsername());
     }

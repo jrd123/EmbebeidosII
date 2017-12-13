@@ -1,10 +1,12 @@
 package latitude_pc.app.prueba1.com.prueba1;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,7 +19,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.text.ParseException;
@@ -27,12 +40,15 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import latitude_pc.app.prueba1.com.prueba1.Adapters.ServiceCardViewAdapter;
 import latitude_pc.app.prueba1.com.prueba1.Models.ServicesModel;
 import latitude_pc.app.prueba1.com.prueba1.Models.UserModel;
 
 public class ProjectsView extends AppCompatActivity {
+    ProgressDialog progress;
     private boolean Close = false;
     SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy");
     private ListView mDrawerList;
@@ -44,24 +60,20 @@ public class ProjectsView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projects_view);
-        User = getIntent().getStringExtra("User");
         getSupportActionBar().setTitle("Servicios");
-        RecyclerView servicesRecycler = (RecyclerView) findViewById(R.id.servicesRecyclerView);
         mDrawerList = (ListView)findViewById(R.id.navList);
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-
+        progress = new ProgressDialog(ProjectsView.this);
+        progress.setCancelable(false);
+        progress.setIndeterminate(true);
+        progress.setMessage("Espere, porfavor....");
         addDrawerItems();
         setupDrawer();
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        servicesRecycler.setLayoutManager(linearLayoutManager);
-        ArrayList<ServicesModel> services = getServices();
+        getServices();
 
-        ServiceCardViewAdapter serviceAdapter = new ServiceCardViewAdapter(services, R.layout.cardviewservices, this);
 
-        servicesRecycler.setAdapter(serviceAdapter);
 
     }
 
@@ -89,27 +101,59 @@ public class ProjectsView extends AppCompatActivity {
         ProjectsView.this.finish();
     }
 
-    public ArrayList<ServicesModel> getServices(){
-        ArrayList<ServicesModel> services = new ArrayList<>();
-        try{
-            services.add(new ServicesModel(1, "Reparación 1", "Luis García", "Empezando reparacion",format.parse("29/10/2017")));
-            services.add(new ServicesModel(2, "Afinacion", "Luis García", "Segunda afinacion del mes" ,format.parse("25/10/2017")));
-            services.add(new ServicesModel(3 ,"Otro", "Jonathan Rdz", "Servicio de emergencia" ,format.parse("29/10/2017")));
-            services.add(new ServicesModel(4, "Mantenimiento", "Jared A.", "Valoracion y reparaciones mensuales",format.parse("16/10/2017")));
-            services.add(new ServicesModel(5, "General", "Campos", "Chequeo general",format.parse("3/10/2017")));
-            services.add(new ServicesModel(5, "General", "Campos", "Chequeo general",format.parse("3/09/2017")));
-            services.add(new ServicesModel(5, "General", "Jonathan Rdx", "Chequeo general",format.parse("3/09/2017")));
-            Collections.sort(services, new Comparator<ServicesModel>() {
-                public int compare(ServicesModel m1, ServicesModel m2) {
-                    return m1.getLastDate().compareTo(m2.getLastDate());
+    public void getServices(){
+        final ArrayList<ServicesModel> services = new ArrayList<>();
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            //Se detecta la respuesta
+            public void onResponse(String response) {
+                try {
+                    progress.show();
+                    JSONObject jsonResponse = new JSONObject(response);
+                    Iterator x = jsonResponse.keys();
+                    JSONArray jsonArray = new JSONArray();
+
+                    while (x.hasNext()){
+                        String key = (String) x.next();
+                        jsonArray.put(jsonResponse.get(key));
+                    }
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyy-mm-dd");
+
+                    for(int i=0; i < jsonArray.length() ; i++) {
+                        JSONObject json_data = jsonArray.getJSONObject(i);
+                        try {
+                            Date convertedDate = new Date();
+                            convertedDate = dateFormat.parse(json_data.getString("fecha"));
+                            ServicesModel service = new ServicesModel(json_data.getInt("service_id"),json_data.getString("service"),json_data.getString("autor"),json_data.getString("Descripcion"),convertedDate);
+                            services.add(service);
+                        }
+                        catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ProjectsView.this);
+                    linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    RecyclerView servicesRecycler = (RecyclerView) findViewById(R.id.servicesRecyclerView);
+
+                    servicesRecycler.setLayoutManager(linearLayoutManager);
+                    ServiceCardViewAdapter serviceAdapter = new ServiceCardViewAdapter(services, R.layout.cardviewservices, ProjectsView.this);
+
+                    servicesRecycler.setAdapter(serviceAdapter);
+                    progress.dismiss();
+                    //si el campo success es true
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            });
-        }
-        catch (ParseException e)
-        {
-            Toast.makeText(this,e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-        return services;
+
+            }
+        };
+
+        //Se crea un objeto de tipo LoginRequest con los parametros usuario, contraseña y responseListener
+        ProjectsRequest ProjectsRequest = new ProjectsRequest(responseListener);
+
+        //Enviar a la cola la peticion
+        RequestQueue queue = Volley.newRequestQueue(ProjectsView.this);
+        queue.add(ProjectsRequest);
     }
 
     private void addDrawerItems() {

@@ -11,7 +11,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@color/colorAccent"
+
         android:layout_marginTop="35dp"
         app:hintTextAppearance="@style/TextAppearence.TextInputLayout.FloatLabel">
 
@@ -22,12 +22,12 @@
             android:hint="Nombre del servicio"
             android:textSize="15dp"
             android:inputType="textPersonName"
-            android:textColor="#000" />
+            />
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@color/colorAccent"
+
         android:layout_marginTop="10dp"
         app:hintTextAppearance="@style/TextAppearence.TextInputLayout.FloatLabel">
 
@@ -38,12 +38,12 @@
             android:hint="@string/user_name"
             android:textSize="15dp"
             android:inputType="textPersonName"
-            android:textColor="#000" />
+            />
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@color/colorAccent"
+
         android:layout_marginTop="10dp"
         app:hintTextAppearance="@style/TextAppearence.TextInputLayout.FloatLabel">
 
@@ -54,7 +54,7 @@
             android:hint="Descripcion"
             android:textSize="15dp"
             android:inputType="textPersonName"
-            android:textColor="#000" />
+            />
     </android.support.design.widget.TextInputLayout>
     <RelativeLayout
         android:layout_width="match_parent"

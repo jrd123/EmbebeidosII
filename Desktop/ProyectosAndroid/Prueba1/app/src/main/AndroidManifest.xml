@@ -32,15 +32,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".UserAreaActivity"
-            android:label="@string/userArea">
-            <intent-filter>
-                <action android:name="android.intent.action.USERAREA" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
         <activity android:name=".ProjectsView" />
         <activity android:name=".ProjectDetail" />
         <activity android:name=".ProjectRegister"></activity>

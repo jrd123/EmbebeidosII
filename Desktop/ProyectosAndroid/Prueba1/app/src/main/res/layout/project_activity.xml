@@ -32,7 +32,7 @@
                 android:text="Fecha"
                 android:textSize="25dp"
                 android:textAlignment="textEnd">
-                </TextView>
+            </TextView>
 
 
         </android.support.design.widget.CollapsingToolbarLayout>
